@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Questioner|User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/home.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1> <span class="highlight">Questioner</span></h1>
+            </div>
+            <!--<div id="search">
+                <form action="">
+                    <input type="text" placeholder="Search question...">
+                    <button type="submit" class="button">Search</button>
+                </form>
+
+            </div>-->
+            <nav>
+                <ul>
+                    <li class="current"><a href="home.html">Home</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li>Welcome SIMON OKELLO</li>
+                    <li><a href="index.html">SignOut</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section id="main">
+        <div class="container">
+            <article id="main-col">
+                <h1>Questions</h1>
+                <ul id="questions">
+                    <li>
+                        <h3><a href="">Flask Meetup</a> </h3>
+                        <p><a href="">What is the main agenda of this meetup?</a> </p><span class="posted_by">by
+                            SimonOkello at 2pm</span>
+                        <p><a href="">What is the venue of this meetup?</a></p><span class="posted_by">by SimonOkello
+                            at 2pm</span><br><br>
+                        <a href=""><span class="upvote">(2) Upvote</span></a>  ||  <a href=""><span class="downvote">(5) Downvote</span></a>
+                        <div class="comment">
+                            <form action="">
+                                <input type="text" name="comment" placeholder="Add a comment...">
+                                <button type="submit" class="button">Comment</button>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <h3><a href="">Django Meetup</a></h3>
+                        <p><a href="">What is the main agenda of this meetup?</a></p><span class="posted_by">by
+                            SimonOkello at 2pm</span>
+                        <p><a href="">What is the venue of this meetup?</a></p><span class="posted_by">by SimonOkello
+                            at 2pm</span><br><br>
+                            <a href=""><span class="upvote">(2) Upvote</span></a>  ||  <a href=""><span class="downvote">(5) Downvote</span></a>
+                        <div class="comment">
+                            <form action="">
+                                <input type="text" name="comment" placeholder="Add a comment...">
+                                <button type="submit" class="button">Comment</button>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <h3><a href="">ADC Meetup</a></h3>
+                        <p><a href="">What is the main agenda of this meetup?</a></p><span class="posted_by">by
+                            SimonOkello at 2pm</span>
+                        <p><a href="">What is the venue of this meetup?</a></p><span class="posted_by">by SimonOkello
+                            at 2pm</span><br><br>
+                            <a href=""><span class="upvote">(2) Upvote</span></a>  ||  <a href=""><span class="downvote">(5) Downvote</span></a>
+                        <div class="comment">
+                            <form action="">
+                                <input type="text" name="comment" placeholder="Add a comment...">
+                                <button type="submit" class="button">Comment</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </article>
+            <aside id="sidebar">
+                <h3>Post a question</h3>
+                <form action="">
+                    <label for="meetup">Select Your Meetup(s)</label> <br>
+                    <select class="custom-select" name="meetup">
+                        <option value="">Flask Meetup</option>
+                        <option value="">Django Meetup</option>
+                        <option value="">Javascript</option>
+                        <option value="">ADC Meetup</option>
+                    </select>
+
+                    <textarea rows="4" cols="40" placeholder="Type your question here..."></textarea>
+                    <button input type="button" class="post-btn">Post</button>
+                </form>
+            </aside>
+
+        </div>
+    </section>
+
+
+
+
+    <footer>
+        <p>&copy;2019 Questioner. All rights reserved</p>
+    </footer>
+</body>
+
+</html>
