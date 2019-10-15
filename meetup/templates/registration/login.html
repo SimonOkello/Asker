@@ -28,18 +28,7 @@
         <h1>Login</h1>
         <form method="POST">
           {% csrf_token%}
-          <input
-            type="email"
-            placeholder="Enter email"
-            name="email"
-            required
-          /><br />
-          <input
-            type="password"
-            placeholder="Enter password"
-            name="password"
-            required
-          /><br />
+         {{ form.as_p }}
           <button type="submit" class="button">Login</button>
         </form>
         <p><a href="password_reset.html">Forgot password?</a></p>

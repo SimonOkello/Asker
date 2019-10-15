@@ -37,11 +37,13 @@
             <article id="main-col">
                 <h1>Upcomming Meetups</h1>
                 <ul id="questions">
+                    {% for meetup in meetups %}
                     <li>
-                        <h3><a href="">Flask Meetup</a> </h3>
-                        <p>Venue: PAC first-floor </p>
-                        <p>When: Wed, 9th Jan 2019</p>
-                        <p>Description: How to adhere to Andela EPIC rules</p>
+                        
+                        <h3><a href="">{{meetup.title}}</a> </h3>
+                        <p>Venue: {{meetup.venue}} </p>
+                        <p>When: {{meetup.when}}</p>
+                        <p>Description: {{meetup.description}}</p>
                         <form action="edit_meetup.html">
                             <button type="submit" class="button" >Edit</button>
                             <button type="submit" class="button" disabled>Delete</button>
@@ -67,6 +69,7 @@
                             <button type="submit" class="button">Delete</button>
                         </form>
                     </li>
+                    {% endfor %}
                 </ul>
             </article>
             <aside id="sidebar">
