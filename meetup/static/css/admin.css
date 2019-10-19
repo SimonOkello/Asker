@@ -139,7 +139,8 @@ aside#sidebar input[type="text"],input[type="date"],textarea{
   
 article#main-col{
       float: left;
-      width: 65%
+      width: 65%;
+      
   }
 article#main-col input[type="text"],input[type="date"],textarea{
     width: 100%;

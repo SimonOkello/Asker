@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Questioner|User</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/admin.css" />
+    <link rel="stylesheet" href="../static/css/home.css" />
   </head>
 
   <body>
@@ -23,9 +23,9 @@
             </div>-->
         <nav>
           <ul>
-            <li class="current"><a href="index.html">Home</a></li>
-            <!--<li><a href="profile.html">Profile</a></li>-->
-            <li>Welcome ADMIN</li>
+            <li class="current"><a href="home.html">Home</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li>Welcome SIMON OKELLO</li>
             <li><a href="/logout">SignOut</a></li>
           </ul>
         </nav>
@@ -34,33 +34,21 @@
     <section id="main">
       <div class="container">
         <article id="main-col">
-          <h1>Upcomming Meetups</h1>
-          {% if meetups %}
+          <h1>Questions</h1>
           <ul id="questions">
-            {% for meetup in meetups %}
             <li>
               <h3>
-                <a href="{% url 'detail' meetup.id %}">{{ meetup.title }}</a>
+                <a href="">{{ meetup.title }}</a>
               </h3>
-              <p>Venue: {{ meetup.venue }}</p>
-              <p>When: {{ meetup.when }}</p>
-              <p>Description: {{ meetup.description }}</p>
-              <form action="edit_meetup.html">
-                <button type="submit" class="button">Edit</button>
-                <button type="submit" class="button" disabled>Delete</button>
-              </form>
+              <p>{{ meetup.description }}</p>
             </li>
-            {% endfor %}
           </ul>
-          {% else %}
-          <p>No Meetups are available.</p>
-          {% endif %}
         </article>
         <aside id="sidebar">
           <h3>Create Meetup</h3>
           <form action="create.html" method="POST">
             {% csrf_token %}
-            {{form.as_p}}
+            {{ form.as_p() }}
             <button type="submit" class="post-btn">Create</button>
           </form>
         </aside>

@@ -1,22 +1,15 @@
-from django.shortcuts import render, redirect
-from .forms import RegisterForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import RegisterForm, PostMeetup
 from django.contrib import auth
 from django.contrib.auth import get_user_model
 from meetup.models import Meetup
+from django.http import HttpResponse
 
 # Create your views here.
 
 
 def index(request):
     return render(request, 'index.html', {})
-
-
-def home(request):
-    return render(request, 'home.html', {})
-
-
-def register(request):
-    return render(request, 'signup.html', {})
 
 
 def home(request):
@@ -39,8 +32,18 @@ def register(request):
 
 
 def meetups(request):
-    meetups = Meetup.objects.all()
-    context = {
-        "meetups": meetups
-    }
-    return(request, 'admin.html', context)
+    if request.method == "POST":
+        form = PostMeetup(request.POST)
+        if form.is_valid():
+
+            form.save()
+        return redirect("/meetups")
+    else:
+        meetups = Meetup.objects.order_by('-when')
+        context = {"meetups": meetups}
+    return render(request, 'admin.html', context)
+
+
+def detail(request, meetup_id):
+    meetup = get_object_or_404(Meetup, pk=meetup_id)
+    return render(request, 'detail.html', {'meetup': meetup})
