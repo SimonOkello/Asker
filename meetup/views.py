@@ -40,8 +40,8 @@ def meetups(request):
         return redirect("/meetups")
     else:
         meetups = Meetup.objects.order_by('-when')
-        context = {"meetups": meetups}
-    return render(request, 'admin.html', context)
+
+    return render(request, 'admin.html', {"meetups": meetups})
 
 
 def detail(request, meetup_id):

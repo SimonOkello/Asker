@@ -1,62 +1,64 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Questioner|User</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/home.css" />
-  </head>
 
-  <body>
-    <header>
-      <div class="container">
-        <div id="branding">
-          <h1><span class="highlight">Questioner</span></h1>
-        </div>
-        <!--<div id="search">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Questioner|User</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../static/css/home.css" />
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div id="branding">
+        <h1><span class="highlight">Questioner</span></h1>
+      </div>
+      <!--<div id="search">
                 <form action="">
                     <input type="text" placeholder="Search question...">
                     <button type="submit" class="button">Search</button>
                 </form>
 
             </div>-->
-        <nav>
-          <ul>
-            <li class="current"><a href="home.html">Home</a></li>
-            <li><a href="profile.html">Profile</a></li>
-            <li>Welcome SIMON OKELLO</li>
-            <li><a href="/logout">SignOut</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <section id="main">
-      <div class="container">
-        <article id="main-col">
-          <h1>Questions</h1>
-          <ul id="questions">
-            <li>
-              <h3>
-                <a href="">{{ meetup.title }}</a>
-              </h3>
-              <p>{{ meetup.description }}</p>
-            </li>
-          </ul>
-        </article>
-        <aside id="sidebar">
-          <h3>Create Meetup</h3>
-          <form action="create.html" method="POST">
-            {% csrf_token %}
-            {{ form.as_p() }}
-            <button type="submit" class="post-btn">Create</button>
-          </form>
-        </aside>
-      </div>
-    </section>
+      <nav>
+        <ul>
+          <li class="current"><a href="home.html">Home</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          <li>Welcome SIMON OKELLO</li>
+          <li><a href="/logout">SignOut</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <section id="main">
+    <div class="container">
+      <article id="main-col">
+        <h1>Questions</h1>
+        <ul id="questions">
+          <li>
+            <h3>
+              <a href="">{{ meetup.title }}</a>
+            </h3>
+            <p>{{ meetup.description }}</p>
+          </li>
+        </ul>
+      </article>
+      <aside id="sidebar">
+        <h3>Create Meetup</h3>
+        <form action="create.html" method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="post-btn">Create</button>
+        </form>
+      </aside>
+    </div>
+  </section>
 
-    <footer>
-      <p>&copy;2019 Questioner. All rights reserved</p>
-    </footer>
-  </body>
+  <footer>
+    <p>&copy;2019 Questioner. All rights reserved</p>
+  </footer>
+</body>
+
 </html>
