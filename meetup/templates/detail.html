@@ -42,8 +42,28 @@
               <a href="">{{ meetup.title }}</a>
             </h3>
             <p>{{ meetup.description }}</p>
+            <hr>
+            {% for comment in meetup.comments.all %}
+            <div class="comment">
+              <div class="date">{{ comment.created_date }}</div>
+              <strong>{{ comment.author }}</strong>
+              <p>{{ comment.text|linebreaks }}</p>
+            </div>
+            <a href=""><span class="upvote">({{comment.up_vote}}) Upvote</span></a> || <a href=""><span class="downvote">({{comment.down_vote}})
+                Downvote</span></a>
+            {% empty %}
+            <p>No comments here yet :(</p>
+            {% endfor %}
+            <div class="comment">
+              <form action="">
+                <input type="text" name="comment" placeholder="Add a comment...">
+                <button type="submit" class="button">Comment</button>
+              </form>
+            </div>
           </li>
+
         </ul>
+
       </article>
       <aside id="sidebar">
         <h3>Create Meetup</h3>

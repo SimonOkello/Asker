@@ -45,6 +45,7 @@
               <p>Venue: {{ meetup.venue }}</p>
               <p>When: {{ meetup.when }}</p>
               <p>Description: {{ meetup.description }}</p>
+              <a href="{% url 'detail' meetup.id %}">Comments: {{ meetup.comments.count }}</a>
               <form action="edit_meetup.html">
                 <button type="submit" class="button">Edit</button>
                 <button type="submit" class="button" disabled>Delete</button>

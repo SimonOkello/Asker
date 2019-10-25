@@ -13,7 +13,8 @@ def index(request):
 
 
 def home(request):
-    return render(request, 'home.html', {})
+    meetups = Meetup.objects.all()
+    return render(request, 'home.html', {'meetups':meetups})
 
 
 def register(request):

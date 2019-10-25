@@ -37,13 +37,27 @@
             <article id="main-col">
                 <h1>Questions</h1>
                 <ul id="questions">
+                    {% if meetups %}
+                    {% for meetup in meetups %}
                     <li>
-                        <h3><a href="">Flask Meetup</a> </h3>
-                        <p><a href="">What is the main agenda of this meetup?</a> </p><span class="posted_by">by
-                            SimonOkello at 2pm</span>
-                        <p><a href="">What is the venue of this meetup?</a></p><span class="posted_by">by SimonOkello
-                            at 2pm</span><br><br>
-                        <a href=""><span class="upvote">(2) Upvote</span></a>  ||  <a href=""><span class="downvote">(5) Downvote</span></a>
+                        <h3>
+                            <a href="{% url 'detail' meetup.id %}">{{ meetup.title }}</a>
+                          </h3>
+                          {% endfor %}
+                          {% endif %}
+                          <hr>
+                          {% for comment in meetup.comments.all %}
+                          <div class="comment">
+                            <div class="date">{{ comment.created_date }}</div>
+                            <strong>{{ comment.author }}</strong>
+                            <p>{{ comment.text|linebreaks }}</p>
+                          </div>
+                          <a href=""><span class="upvote">({{comment.up_vote}}) Upvote</span></a> || <a href=""><span class="downvote">({{comment.down_vote}})
+                              Downvote</span></a>
+                          {% empty %}
+                          <p>No comments here yet :(</p>
+                          {% endfor %}
+                          
                         <div class="comment">
                             <form action="">
                                 <input type="text" name="comment" placeholder="Add a comment...">
@@ -51,46 +65,20 @@
                             </form>
                         </div>
                     </li>
-                    <li>
-                        <h3><a href="">Django Meetup</a></h3>
-                        <p><a href="">What is the main agenda of this meetup?</a></p><span class="posted_by">by
-                            SimonOkello at 2pm</span>
-                        <p><a href="">What is the venue of this meetup?</a></p><span class="posted_by">by SimonOkello
-                            at 2pm</span><br><br>
-                            <a href=""><span class="upvote">(2) Upvote</span></a>  ||  <a href=""><span class="downvote">(5) Downvote</span></a>
-                        <div class="comment">
-                            <form action="">
-                                <input type="text" name="comment" placeholder="Add a comment...">
-                                <button type="submit" class="button">Comment</button>
-                            </form>
-                        </div>
-                    </li>
-                    <li>
-                        <h3><a href="">ADC Meetup</a></h3>
-                        <p><a href="">What is the main agenda of this meetup?</a></p><span class="posted_by">by
-                            SimonOkello at 2pm</span>
-                        <p><a href="">What is the venue of this meetup?</a></p><span class="posted_by">by SimonOkello
-                            at 2pm</span><br><br>
-                            <a href=""><span class="upvote">(2) Upvote</span></a>  ||  <a href=""><span class="downvote">(5) Downvote</span></a>
-                        <div class="comment">
-                            <form action="">
-                                <input type="text" name="comment" placeholder="Add a comment...">
-                                <button type="submit" class="button">Comment</button>
-                            </form>
-                        </div>
-                    </li>
+                   
                 </ul>
             </article>
             <aside id="sidebar">
                 <h3>Post a question</h3>
                 <form action="">
-                    <label for="meetup">Select Your Meetup(s)</label> <br>
-                    <select class="custom-select" name="meetup">
-                        <option value="">Flask Meetup</option>
-                        <option value="">Django Meetup</option>
-                        <option value="">Javascript</option>
-                        <option value="">ADC Meetup</option>
+                    <label for="meetup">Select Your Meetup</label> <br>
+                    {% if meetups %}
+                    <select name="meetup" class="">
+                        {% for meetup in meetups %}
+                        <option value="{{ meetup.id }}">{{ meetup.title }}</option>
+                        {% endfor %}
                     </select>
+                    {% endif %}
 
                     <textarea rows="4" cols="40" placeholder="Type your question here..."></textarea>
                     <button input type="button" class="post-btn">Post</button>
