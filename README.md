@@ -40,8 +40,7 @@ Download Python[Here](https://www.python.org/downloads/)
    
    `source venv/bin/activate`
 
-5. Install packages required for the app using package manager [pip] 
-   (https://pip.pypa.io/en/stable/)
+5. Install packages required for the app using package manager [pip](https://pip.pypa.io/en/stable/)
 
    `pip install -r requirements.txt`
 
