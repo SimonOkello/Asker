@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from meetup.models import Meetup
+from meetup.models import Meetup, Comment
 
 
 class RegisterForm(UserCreationForm):
@@ -11,12 +11,22 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ["username", "email", "password1", "password2"]
 
+
 class PostMeetup(forms.ModelForm):
-    title=forms.CharField()
-    venue=forms.CharField()
-    when=forms.DateInput()
-    description=forms.Textarea()
+    title = forms.CharField()
+    venue = forms.CharField()
+    when = forms.DateInput()
+    description = forms.Textarea()
 
     class Meta:
-        model=Meetup
+        model = Meetup
         fields = ['title', 'venue', 'when', 'description']
+
+
+class CommentForm(forms.ModelForm):
+    author = forms.CharField()
+    text = forms.Textarea()
+
+    class Meta:
+        model = Comment
+        fields = ['author', 'text']

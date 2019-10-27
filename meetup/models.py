@@ -7,6 +7,7 @@ from django.utils import timezone
 class Meetup(models.Model):
     title = models.CharField(max_length=200)
     venue = models.CharField(max_length=100)
+    created_on = models.DateTimeField(default=timezone.now)
     when = models.DateField()
     description = models.TextField()
 

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterForm, PostMeetup
+from .forms import RegisterForm, PostMeetup, CommentForm
 from django.contrib import auth
 from django.contrib.auth import get_user_model
-from meetup.models import Meetup
+from meetup.models import Meetup, Comment
 from django.http import HttpResponse
 
 # Create your views here.
@@ -14,7 +14,7 @@ def index(request):
 
 def home(request):
     meetups = Meetup.objects.all()
-    return render(request, 'home.html', {'meetups':meetups})
+    return render(request, 'home.html', {'meetups': meetups})
 
 
 def register(request):
@@ -33,18 +33,43 @@ def register(request):
 
 
 def meetups(request):
+    form = PostMeetup()
     if request.method == "POST":
         form = PostMeetup(request.POST)
         if form.is_valid():
-
-            form.save()
+            post_meetup = Meetup(
+                title=form.cleaned_data["title"],
+                venue=form.cleaned_data["venue"],
+                when=form.cleaned_data["when"],
+                description=form.cleaned_data["description"],
+                
+            )
+            post_meetup.save()
+            
         return redirect("/meetups")
     else:
-        meetups = Meetup.objects.order_by('-when')
+        meetups = Meetup.objects.all().order_by('-created_on')
 
-    return render(request, 'admin.html', {"meetups": meetups})
+    return render(request, 'admin.html', {"meetups": meetups, "form": form})
 
 
 def detail(request, meetup_id):
     meetup = get_object_or_404(Meetup, pk=meetup_id)
-    return render(request, 'detail.html', {'meetup': meetup})
+    form = CommentForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = Comment(
+                author=form.cleaned_data["author"],
+                text=form.cleaned_data["text"],
+                meetup=meetup,
+            )
+            comment.save()
+            form =CommentForm() 
+
+    context = {"meetup": meetup, "form": form}
+    return render(request, 'detail.html', context)
+
+
+def profile(request):
+    return render(request, 'profile.html', {})

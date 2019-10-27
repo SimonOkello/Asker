@@ -6,7 +6,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('meetups/', views.meetups, name='meetups'),
     path('<int:meetup_id>/', views.detail, name='detail'),
-    #path('new_meetup/', views.post_meetup, name='post_meetup'),
+    path('profile/', views.profile, name='profile'),
 
 
 

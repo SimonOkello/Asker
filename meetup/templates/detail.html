@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Questioner|User</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../static/css/home.css" />
+  <link rel="stylesheet" href="../static/css/detail.css" />
 </head>
 
 <body>
@@ -41,24 +41,37 @@
             <h3>
               <a href="">{{ meetup.title }}</a>
             </h3>
+            <small><i>Created on:</i>
+              {{ meetup.created_on.date }}
+            </small>
             <p>{{ meetup.description }}</p>
             <hr>
+            <hr>
+            <h3>Questions:</h3>
             {% for comment in meetup.comments.all %}
-            <div class="comment">
-              <div class="date">{{ comment.created_date }}</div>
-              <strong>{{ comment.author }}</strong>
+            <div class="comment-box">
+
+              <p>
+                On {{comment.created_date }}&nbsp;
+                <b>{{ comment.author }}</b> asked:
+              </p>
               <p>{{ comment.text|linebreaks }}</p>
             </div>
-            <a href=""><span class="upvote">({{comment.up_vote}}) Upvote</span></a> || <a href=""><span class="downvote">({{comment.down_vote}})
+            <!--<div class="arrow-up"></div>
+            <div class="arrow-down"></div>-->
+            <a href=""><span class="upvote">({{comment.up_vote}}) Upvote</span></a> || <a href=""><span
+                class="downvote">({{comment.down_vote}})
                 Downvote</span></a>
+            <hr>
             {% empty %}
             <p>No comments here yet :(</p>
             {% endfor %}
             <div class="comment">
-              <form action="">
-                <input type="text" name="comment" placeholder="Add a comment...">
-                <button type="submit" class="button">Comment</button>
-              </form>
+              <form action="" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" class="button">Submit</button>
+            </form>
             </div>
           </li>
 
@@ -66,12 +79,12 @@
 
       </article>
       <aside id="sidebar">
-        <h3>Create Meetup</h3>
+        <!--<h3>Create Meetup</h3>
         <form action="create.html" method="POST">
           {% csrf_token %}
           {{ form.as_p }}
           <button type="submit" class="post-btn">Create</button>
-        </form>
+        </form>-->
       </aside>
     </div>
   </section>
