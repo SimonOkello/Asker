@@ -17,7 +17,7 @@ You need to install python on your computer.
 Download Python[Here](https://www.python.org/downloads/)
 
 ## Installation
-```bash
+
 1. Clone this repository.
 
    `git clone https://github.com/SimonOkello/Asker.git`
@@ -48,7 +48,7 @@ Download Python[Here](https://www.python.org/downloads/)
 6. Finally run the app
    
    `python manage.py runserver`
-```
+
 
 ## Built with
 
