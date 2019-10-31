@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Questioner|User</title>
+    <title>Asker|Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/profile.css">
 </head>
@@ -13,7 +13,7 @@
     <header>
         <div class="container">
             <div id="branding">
-                <h1> <span class="highlight">Questioner</span></h1>
+                <h1><span class="highlight"> Asker</span></h1>
             </div>
             <!--<div id="search">
                 <form action="">
@@ -24,8 +24,8 @@
             </div>-->
             <nav>
                 <ul>
-                    <li class="current"><a href="home.html">Home</a></li>
-                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="/home">Home</a></li>
+                    <li class="current"><a href="profile.html">Profile</a></li>
                     <li>Welcome SIMON OKELLO</li>
                     <li><a href="index.html">SignOut</a></li>
                 </ul>
@@ -36,59 +36,46 @@
         <div class="container">
             <aside id="left_side">
 
-                <img src="./images/user.png" alt="No Image Found">
+                <img src="../static/images/user.png" alt="No Image Found">
                 <h3>Username: User1</h3>
                 <h3>Email:user@example.com</h3>
                 <div class="status">
-                    <h3>(10) Questions posted</h3>
-                    <h3>(15) Questions commented</h3>
+                    <h3>Questions posted: [ {{meetups.count}} ]</h3>
+                    <h3> Questions commented [3]</h3>
                 </div>
             </aside>
             <article id="main-col">
                 <h1>My Questions Feed</h1>
                 <ul id="questions">
+                    {% for meetup in meetups %}
                     <li>
-                        <h3><a href="">Flask Meetup</a> </h3>
-                        <p><a href="">What is the main agenda of this meetup?</a> </p><span class="posted_by">by
-                            SimonOkello at 20 minutes ago</span>
-                        <p><a href="">What is the venue of this meetup?</a></p><span class="posted_by">by SimonOkello
-                            at 20 minutes ago</span><br><br>
-                        <a href=""><span class="upvote">(2) Upvote</span></a>  ||  <a href=""><span class="downvote">(5)
-                                Downvote</span></a>
+                        <h3>
+                            <a href="#">{{ meetup.title }}</a>
+                        </h3>
+                        <small><i>Created on:</i>
+                            {{ meetup.created_on.date }}
+                        </small>
+                        <hr>
+                        <hr>
+                        {% for comment in meetup.comments.all %}
                         <div class="comment">
-                            <form action="">
-                                <input type="text" name="comment" placeholder="Add a comment...">
-                                <button type="submit" class="button">Comment</button>
-                            </form>
+                            <p>
+                                On {{comment.created_date }}&nbsp;
+                                <b>{{ comment.author }}</b> asked:
+                            </p>
+                            <p>{{ comment.text|linebreaks }}</p>
                         </div>
-                    </li>
-                    <li>
-                        <h3><a href="">Django Meetup</a></h3>
-                        <p><a href="">What is the main agenda of this meetup?</a></p><span class="posted_by">by
-                            SimonOkello at 20 minutes ago</span>
-                        <p><a href="">What is the venue of this meetup?</a></p><span class="posted_by">by SimonOkello
-                            at 20 minutes ago</span><br><br>
-                            <a href=""><span class="upvote">(2) Upvote</span></a>  ||  <a href=""><span class="downvote">(5) Downvote</span></a>
-                        <div class="comment">
-                            <form action="">
-                                <input type="text" name="comment" placeholder="Add a comment...">
-                                <button type="submit" class="button">Comment</button>
-                            </form>
-                        </div>
-                    </li>
-                    <li>
-                        <h3><a href="">ADC Meetup</a></h3>
-                        <p><a href="">What is the main agenda of this meetup?</a></p><span class="posted_by">by
-                            SimonOkello at 20 minutes ago</span>
-                        <p><a href="">What is the venue of this meetup?</a></p><span class="posted_by">by SimonOkello
-                            at 20 minutes ago</span><br><br>
-                            <a href=""><span class="upvote">(2) Upvote</span></a>  ||  <a href=""><span class="downvote">(5) Downvote</span></a>
-                        <div class="comment">
-                            <form action="">
-                                <input type="text" name="comment" placeholder="Add a comment...">
-                                <button type="submit" class="button">Comment</button>
-                            </form>
-                        </div>
+                        <hr>
+                        <!--<a href=""><span class="upvote">({{comment.up_vote}}) Upvote</span></a> || <a href=""><span
+                                class="downvote">({{comment.down_vote}})
+                                Downvote</span></a>-->
+                        {% empty %}
+                        <p>No questions here yet</p>
+
+                        {% endfor %}
+                        {% empty %}
+                        <p>There is no meetups</p>
+                        {% endfor %}
                     </li>
                 </ul>
             </article>
@@ -98,7 +85,7 @@
 
 
     <footer>
-        <p>&copy;2019 Questioner. All rights reserved</p>
+        <p>&copy;2019 Asker. All rights reserved</p>
     </footer>
 </body>
 

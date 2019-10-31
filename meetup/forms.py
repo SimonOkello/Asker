@@ -30,3 +30,15 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['author', 'text']
+
+
+class PostQuizForm(forms.ModelForm):
+    meetup = forms.ModelChoiceField(
+        queryset=Meetup.objects.all().order_by('-created_on'))
+    author = forms.CharField()
+    text = forms.Textarea()
+
+    class Meta:
+        model = Comment
+        fields = ['author', 'meetup', 'text']
+    
