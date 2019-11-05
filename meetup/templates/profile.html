@@ -24,10 +24,19 @@
             </div>-->
             <nav>
                 <ul>
-                    <li><a href="/home">Home</a></li>
-                    <li class="current"><a href="profile.html">Profile</a></li>
-                    <li>Welcome SIMON OKELLO</li>
-                    <li><a href="index.html">SignOut</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="/profile">Profile</a></li>
+                        <li>
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            You are not logged in
+                        </li>
+                        <li>
+                            <a href="{% url 'login' %}">Login</a>
+                        </li>
+                        {% endif %}
                 </ul>
             </nav>
         </div>
@@ -37,11 +46,11 @@
             <aside id="left_side">
 
                 <img src="../static/images/user.png" alt="No Image Found">
-                <h3>Username: User1</h3>
-                <h3>Email:user@example.com</h3>
+                <h3>Username: {{request.user.first_name}} {{request.user.last_name}}</h3>
+                <h3>Email:{{request.user.email}}</h3>
                 <div class="status">
                     <h3>Questions posted: [ {{meetups.count}} ]</h3>
-                    <h3> Questions commented [3]</h3>
+                    <h3> Questions commented [ {{meetup.comments.count}} ]</h3>
                 </div>
             </aside>
             <article id="main-col">
@@ -74,7 +83,7 @@
 
                         {% endfor %}
                         {% empty %}
-                        <p>There is no meetups</p>
+                        <p>No feeds at the moment</p>
                         {% endfor %}
                     </li>
                 </ul>

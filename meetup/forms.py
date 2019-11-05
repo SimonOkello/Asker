@@ -1,15 +1,21 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from meetup.models import Meetup, Comment
+from meetup.models import Meetup, Comment, Members
 
 
 class RegisterForm(UserCreationForm):
+    first_name = forms.CharField()
+    last_name = forms.CharField()
     email = forms.EmailField()
+    phone_number = forms.CharField()
+    username = forms.CharField()
+    
 
     class Meta:
         model = User
-        fields = ["username", "email", "password1", "password2"]
+        fields = ["first_name", "last_name", "email", "phone_number",
+                  "username", "password1", "password2", ]
 
 
 class PostMeetup(forms.ModelForm):
@@ -30,15 +36,3 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['author', 'text']
-
-
-class PostQuizForm(forms.ModelForm):
-    meetup = forms.ModelChoiceField(
-        queryset=Meetup.objects.all().order_by('-created_on'))
-    author = forms.CharField()
-    text = forms.Textarea()
-
-    class Meta:
-        model = Comment
-        fields = ['author', 'meetup', 'text']
-    

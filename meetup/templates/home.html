@@ -24,10 +24,25 @@
             </div>-->
             <nav>
                 <ul>
-                    <li class="current"><a href="/">Home</a></li>
+                    <!--<li class="current"><a href="/home">Home</a></li>-->
+                    
+                    {% if user.is_authenticated %}
+                    <li>
+                        Welcome {{request.user.first_name}}
+                    </li>
                     <li><a href="/profile">Profile</a></li>
-                    <li>Welcome SIMON OKELLO</li>
-                    <li><a href="/logout">SignOut</a></li>
+                    <li>
+                        <a href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        You are not logged in
+                    </li>
+                    <li>
+                        <a href="{% url 'login' %}">Login</a>
+                    </li>
+                    {% endif %}
+
                 </ul>
             </nav>
         </div>
@@ -58,7 +73,7 @@
                         <a href=""><span class="upvote">({{comment.up_vote}}) Upvote</span></a> || <a href=""><span
                                 class="downvote">({{comment.down_vote}})
                                 Downvote</span></a>
-                                <hr>
+                        <hr>
                         {% empty %}
                         <p>No questions here yet</p>
                         {% endfor %}
@@ -73,6 +88,12 @@
                 <h3>Post a question</h3>
                 <form action="">
                     <label for="meetup">Select Your Meetup</label> <br>
+                    <select>
+                        <option value=""></option>
+                        {% for meetup in meetups %}
+                        <option value="{{ meetup.id }}">{{ meetup.title }}</option>
+                        {% endfor %}
+                    </select>
                     {% csrf_token %}
                     {{form.as_p}}
                     <button input type="submit" class="post-btn">Post</button>

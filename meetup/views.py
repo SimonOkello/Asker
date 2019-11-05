@@ -13,7 +13,7 @@ def index(request):
 
 
 def home(request):
-    meetups = Meetup.objects.all()
+    meetups = Meetup.objects.all().order_by('title')
     form = CommentForm()
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -21,11 +21,11 @@ def home(request):
             comment = Comment(
                 author=form.cleaned_data["author"],
                 text=form.cleaned_data["text"],
-                meetup=meetup,
+                meetups=meetups,
             )
             comment.save()
-            form =CommentForm() 
-    return render(request, 'home.html', {'meetups': meetups, 'form':form})
+            form = CommentForm()
+    return render(request, 'home.html', {'meetups': meetups, 'form': form})
 
 
 def register(request):
@@ -53,10 +53,10 @@ def meetups(request):
                 venue=form.cleaned_data["venue"],
                 when=form.cleaned_data["when"],
                 description=form.cleaned_data["description"],
-                
+
             )
             post_meetup.save()
-            
+
         return redirect("/meetups")
     else:
         meetups = Meetup.objects.all().order_by('-created_on')
@@ -76,7 +76,7 @@ def detail(request, meetup_id):
                 meetup=meetup,
             )
             comment.save()
-            form =CommentForm() 
+            form = CommentForm()
 
     context = {"meetup": meetup, "form": form}
     return render(request, 'detail.html', context)
@@ -84,4 +84,4 @@ def detail(request, meetup_id):
 
 def profile(request):
     meetups = Meetup.objects.all().order_by('-created_on')
-    return render(request, 'profile.html', {'meetups':meetups})
+    return render(request, 'profile.html', {'meetups': meetups})
