@@ -75,6 +75,8 @@ def detail(request, meetup_id):
                 text=form.cleaned_data["text"],
                 meetup=meetup,
             )
+            comment.up_vote += 1
+            comment.down_vote -= 1
             comment.save()
             form = CommentForm()
 

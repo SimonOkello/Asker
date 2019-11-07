@@ -15,8 +15,8 @@ static/media
 .idea/*
 .vscode
 .cache/
-env
-env/
+venv
+venv/
 node_modules/
 static/build/
 static/local/

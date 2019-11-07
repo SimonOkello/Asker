@@ -24,10 +24,23 @@
             </div>-->
       <nav>
         <ul>
-          <li class="current"><a href="index.html">Home</a></li>
-          <!--<li><a href="profile.html">Profile</a></li>-->
-          <li>Welcome ADMIN</li>
-          <li><a href="/logout">SignOut</a></li>
+          {% if user.is_authenticated %}
+                    <li>
+                        Welcome {{request.user.first_name}}
+                    </li>
+                    <!--<li><a href="/profile">Profile</a></li>-->
+                    <li>
+                        <a href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        You are not logged in
+                    </li>
+                    <li>
+                        <a href="{% url 'login' %}">Login</a>
+                    </li>
+                    {% endif %}
+
         </ul>
       </nav>
     </div>

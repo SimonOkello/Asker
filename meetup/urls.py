@@ -8,6 +8,4 @@ urlpatterns = [
     path('<int:meetup_id>/', views.detail, name='detail'),
     path('profile/', views.profile, name='profile'),
 
-
-
 ]
