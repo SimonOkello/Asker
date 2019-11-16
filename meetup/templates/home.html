@@ -28,7 +28,7 @@
                     
                     {% if user.is_authenticated %}
                     <li>
-                        Welcome {{request.user.first_name}}
+                        Welcome {user.username}}
                     </li>
                     <li><a href="/profile">Profile</a></li>
                     <li>
@@ -50,13 +50,13 @@
     <section id="main">
         <div class="container">
             <article id="main-col">
-                <h1>Meetup Questions</h1>
+                <!--<h1>Meetup Questions</h1>
                 <ul id="questions">
 
                     {% for meetup in meetups %}
                     <li>
                         <h3>
-                            <a href="#">{{ meetup.title }}</a>
+                            <a href="{% url 'detail' meetup.id %}">{{ meetup.title }}</a>
                         </h3>
                         <small><i>Created on:</i>
                             {{ meetup.created_on.date }}
@@ -82,10 +82,34 @@
                         {% endfor %}
                     </li>
 
-                </ul>
+                </ul>-->
+                <h1>Upcomming Meetups</h1>
+        {% if meetups %}
+        <ul id="questions">
+          {% for meetup in meetups %}
+          <li>
+            <h3>
+              <a href="{% url 'detail' meetup.id %}">{{ meetup.title }}</a>
+            </h3>
+            <small><i>Created on:</i>
+              {{ meetup.created_on.date }}
+            </small>
+            <p><strong>Venue:</strong> {{ meetup.venue }}</p>
+            <p><strong>When:</strong> {{ meetup.when }}</p>
+            <p><strong>Description:</strong> {{ meetup.description|slice:":400" }}...</p>
+            <form action="edit_meetup.html">
+              <button type="submit" class="button">Edit</button>
+              <button type="submit" class="button" disabled>Delete</button>
+            </form>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>No Meetups are available.</p>
+        {% endif %}
             </article>
             <aside id="sidebar">
-                <h3>Post a question</h3>
+                <!--<h3>Post a question</h3>
                 <form action="">
                     <label for="meetup">Select Your Meetup</label> <br>
                     <select>
@@ -97,7 +121,7 @@
                     {% csrf_token %}
                     {{form.as_p}}
                     <button input type="submit" class="post-btn">Post</button>
-                </form>
+                </form>-->
             </aside>
 
         </div>

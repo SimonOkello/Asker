@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -17,11 +18,13 @@ class Members(models.Model):
 
 
 class Meetup(models.Model):
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='meetings')
     title = models.CharField(max_length=200)
     venue = models.CharField(max_length=100)
     created_on = models.DateTimeField(default=timezone.now)
     when = models.DateField()
     description = models.TextField()
+    
 
     def __str__(self):
         return self.title
@@ -30,11 +33,18 @@ class Meetup(models.Model):
 class Comment(models.Model):
     meetup = models.ForeignKey(
         Meetup, on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=200)
-    text = models.TextField()
+    posted_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='comments')
+    question = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     up_vote = models.IntegerField(default=0)
     down_vote = models.IntegerField(default=0)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        ordering = ['-created_date']
+
+    def children(self):#replies
+        return Comment.objects.filter(parent=self)
 
     def __str__(self):
-        return self.text
+        return self.question

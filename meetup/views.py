@@ -3,7 +3,10 @@ from .forms import RegisterForm, PostMeetup, CommentForm
 from django.contrib import auth
 from django.contrib.auth import get_user_model
 from meetup.models import Meetup, Comment
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.urls import reverse
+
 
 # Create your views here.
 
@@ -14,18 +17,7 @@ def index(request):
 
 def home(request):
     meetups = Meetup.objects.all().order_by('title')
-    form = CommentForm()
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = Comment(
-                author=form.cleaned_data["author"],
-                text=form.cleaned_data["text"],
-                meetups=meetups,
-            )
-            comment.save()
-            form = CommentForm()
-    return render(request, 'home.html', {'meetups': meetups, 'form': form})
+    return render(request, 'home.html', {'meetups': meetups})
 
 
 def register(request):
@@ -66,19 +58,19 @@ def meetups(request):
 
 def detail(request, meetup_id):
     meetup = get_object_or_404(Meetup, pk=meetup_id)
+    user=User.objects.first()
     form = CommentForm()
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
-            comment = Comment(
-                author=form.cleaned_data["author"],
-                text=form.cleaned_data["text"],
-                meetup=meetup,
-            )
-            comment.up_vote += 1
-            comment.down_vote -= 1
-            comment.save()
-            form = CommentForm()
+            topic = form.save(commit=False)
+            topic.meetup = meetup
+            topic.posted_by = user
+            topic.save()
+            return HttpResponseRedirect(reverse('detail', args=(meetup.id,)))
+    else:
+        form =CommentForm()
+            
 
     context = {"meetup": meetup, "form": form}
     return render(request, 'detail.html', context)

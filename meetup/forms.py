@@ -30,9 +30,8 @@ class PostMeetup(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    author = forms.CharField()
-    text = forms.Textarea()
+    question = forms.CharField(widget=forms.Textarea)
 
     class Meta:
         model = Comment
-        fields = ['author', 'text']
+        fields = ['question']

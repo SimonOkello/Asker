@@ -1,109 +1,142 @@
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Asker|User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Asker|User</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../static/css/detail.css" />
-</head>
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $(".reply-btn").click(function(event) {
+          event.preventDefault();
+          $(this)
+            .parent()
+            .next(".comment-reply")
+            .fadeToggle();
+        });
+      });
+    </script>
+  </head>
 
-<body>
-  <header>
-    <div class="container">
-      <div id="branding">
-        <h1><span class="highlight"> Asker</span></h1>
-      </div>
-      <!--<div id="search">
+  <body>
+    <header>
+      <div class="container">
+        <div id="branding">
+          <h1><span class="highlight"> Asker</span></h1>
+        </div>
+        <!--<div id="search">
                 <form action="">
                     <input type="text" placeholder="Search question...">
                     <button type="submit" class="button">Search</button>
                 </form>
 
             </div>-->
-      <nav>
-        <ul>
-          {% if user.is_authenticated %}
-          <li>
-            Welcome {{request.user.first_name}}
-          </li>
-          <!--<li><a href="/profile">Profile</a></li>-->
-          <li>
-            <a href="{% url 'logout' %}">Logout</a>
-          </li>
-          {% else %}
-          <li>
-            You are not logged in
-          </li>
-          <li>
-            <a href="{% url 'login' %}">Login</a>
-          </li>
-          {% endif %}
-        </ul>
-      </nav>
-    </div>
-  </header>
-  <section id="main">
-    <div class="container">
-      <article id="main-col">
-        <h1>Questions</h1>
-        <ul id="questions">
-          <li>
-            <h3>
-              <a href="">{{ meetup.title }}</a>
-            </h3>
-            <small><i>Created on:</i>
-              {{ meetup.created_on.date }}
-            </small>
-            <p>{{ meetup.description }}</p>
-            <hr>
-            <hr>
-            <h3>Questions:</h3>
-            {% for comment in meetup.comments.all %}
-            <div class="comment-box">
+        <nav>
+          <ul>
+            {% if user.is_authenticated %}
+            <li>
+              Welcome {{request.user.first_name}}
+            </li>
+            <!--<li><a href="/profile">Profile</a></li>-->
+            <li>
+              <a href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li>
+              You are not logged in
+            </li>
+            <li>
+              <a href="{% url 'login' %}">Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <section id="main">
+      <div class="container">
+        <article id="main-col">
+          <h1>Meetup Questions</h1>
+          <ul id="questions">
+            <li>
+              <!--<h3>Comments: {{ meetup.comments.count }}</h3>-->
+              <h2>
+                <a href="">{{ meetup.title }}</a>
+              </h2>
+              <small
+                ><i>Created on:</i>
+                {{ meetup.created_on.date }}
+              </small>
+              <p>{{ meetup.description }}</p>
+              <hr />
+              <hr />
+              <h3>Questions:</h3>
+              {% for comment in meetup.comments.all %}
+              <!--<div class="comment">-->
+              <blockquote>
+                <p>{{ comment.question|linebreaks }}</p>
+                <p>
+                  <b>{{ comment.posted_by }}</b>|
+                  {{comment.created_date|timesince }} ago|<!--{% if
+                  comment.children.count > 0 %}{{comment.children.count}}
+                  Comment{% if comment.children.count > 1 %}s {% endif %} | {%
+                  endif %}-->
+                  <a href="#" class="reply-btn">Reply</a>
+                </p>
+                <div class="comment-reply" style="display: none;">
+                  {% for reply in comment.children %}
+                  <blockquote>
+                    <p>{{ reply.question|linebreaks }}</p>
+                    <p>
+                      <b>{{ reply.posted_by }}</b>|
+                      {{reply.created_date|timesince }} ago&nbsp;
+                    </p>
+                  </blockquote>
+                  {% endfor %}
+                  <form action="" method="post">
+                    {% csrf_token %} {{form.as_p}}
+                    <input
+                      type="hidden"
+                      name="parent_id"
+                      value="{{comment.id}}"
+                    />
+                    <button type="submit" class="button">Reply</button>
+                  </form>
+                </div>
+              </blockquote>
 
-              <p>
-                On {{comment.created_date }}&nbsp;
-                <b>{{ comment.author }}</b> asked:
-              </p>
-              <p>{{ comment.text|linebreaks }}</p>
-            </div>
-            <!--<div class="arrow-up"></div>
+              <!--</div>-->
+              <!--<div class="arrow-up"></div>
             <div class="arrow-down"></div>-->
-            <a href="vote/"><span class="upvote">({{comment.up_vote.count }}) Upvote</span></a> ||
-            <a href="vote/"><span class="downvote">({{comment.down_vote.count}})
-                Downvote</span></a>
-            <hr>
-            {% empty %}
-            <p>No questions here yet :(</p>
-            {% endfor %}
-            <div class="comment">
-              <form action="" method="post">
-                {% csrf_token %}
-                {{form.as_p}}
-                <button type="submit" class="button">Submit</button>
-              </form>
-            </div>
-          </li>
+              <a href="vote/"
+                ><span class="upvote">{{comment.up_vote }} Upvote</span></a
+              >
+              ||
+              <a href="vote/"
+                ><span class="downvote">{{comment.down_vote}} Downvote</span></a
+              >
+              <hr />
+              {% empty %}
+              <p>No questions here yet :(</p>
+              {% endfor %}
+            </li>
+          </ul>
+        </article>
+        <aside id="sidebar">
+          <h3>Post Question</h3>
+          <form action="." method="POST">
+            {% csrf_token %} {{ form.as_p }}
+            <button type="submit" class="post-btn">Post</button>
+          </form>
+        </aside>
+      </div>
+    </section>
 
-        </ul>
-
-      </article>
-      <aside id="sidebar">
-        <!--<h3>Create Meetup</h3>
-        <form action="create.html" method="POST">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit" class="post-btn">Create</button>
-        </form>-->
-      </aside>
-    </div>
-  </section>
-
-  <footer>
-    <p>&copy;2019 Asker. All rights reserved</p>
-  </footer>
-</body>
-
+    <footer>
+      <p>&copy;2019 Asker. All rights reserved</p>
+    </footer>
+  </body>
 </html>
