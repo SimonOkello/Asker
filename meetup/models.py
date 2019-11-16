@@ -38,13 +38,10 @@ class Comment(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     up_vote = models.IntegerField(default=0)
     down_vote = models.IntegerField(default=0)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
 
     class Meta:
         ordering = ['-created_date']
-
-    def children(self):#replies
-        return Comment.objects.filter(parent=self)
 
     def __str__(self):
         return self.question

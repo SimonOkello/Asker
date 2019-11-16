@@ -87,7 +87,7 @@
                   <a href="#" class="reply-btn">Reply</a>
                 </p>
                 <div class="comment-reply" style="display: none;">
-                  {% for reply in comment.children %}
+                  {% for reply in comment.replies.all %}
                   <blockquote>
                     <p>{{ reply.question|linebreaks }}</p>
                     <p>

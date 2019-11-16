@@ -58,21 +58,27 @@ def meetups(request):
 
 def detail(request, meetup_id):
     meetup = get_object_or_404(Meetup, pk=meetup_id)
-    user=User.objects.first()
+    comments = meetup.comments.filter(parent=True)
+    user = User.objects.first()
     form = CommentForm()
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             topic = form.save(commit=False)
+            parent_id = request.POST.get('parent_id')
+            comment_qs = None
+            if parent_id:
+                comment_qs = Comment.objects.get(id=parent_id)
+
             topic.meetup = meetup
             topic.posted_by = user
+            topic.parent = comment_qs
             topic.save()
             return HttpResponseRedirect(reverse('detail', args=(meetup.id,)))
     else:
-        form =CommentForm()
-            
+        form = CommentForm()
 
-    context = {"meetup": meetup, "form": form}
+    context = {"meetup": meetup, "form": form, 'comments': comments}
     return render(request, 'detail.html', context)
 
 
