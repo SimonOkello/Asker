@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegisterForm, PostMeetup, CommentForm
 from django.contrib import auth
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from meetup.models import Meetup, Comment
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -21,17 +21,14 @@ def home(request):
 
 
 def register(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user.set_password(user.password)
-            form.save()
-
-        return redirect("/login")
+            login(request, user)
+            return redirect('login')
     else:
         form = RegisterForm()
-
     return render(request, 'signup.html', {"form": form})
 
 
@@ -58,7 +55,7 @@ def meetups(request):
 
 def detail(request, meetup_id):
     meetup = get_object_or_404(Meetup, pk=meetup_id)
-    comments = meetup.comments.filter(parent=True)
+    comments = Comment.objects.filter(parent=None)
     user = User.objects.first()
     form = CommentForm()
     if request.method == "POST":

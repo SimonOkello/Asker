@@ -1,56 +1,71 @@
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Asker|User</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/home.css">
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/home.css" />
+  </head>
 
-<body>
+  <body>
     <header>
-        <div class="container">
-            <div id="branding">
-                <h1><span class="highlight"> Asker</span></h1>
-            </div>
-            <!--<div id="search">
+      <div class="container">
+        <div id="branding">
+          <h1><span class="highlight"> Asker</span></h1>
+        </div>
+        <!--<div id="search">
                 <form action="">
                     <input type="text" placeholder="Search question...">
                     <button type="submit" class="button">Search</button>
                 </form>
 
             </div>-->
-            <nav>
-                <ul>
-                    <!--<li class="current"><a href="/home">Home</a></li>-->
-                    
-                    {% if user.is_authenticated %}
-                    <li>
-                        Welcome {user.username}}
-                    </li>
-                    <li><a href="/profile">Profile</a></li>
-                    <li>
-                        <a href="{% url 'logout' %}">Logout</a>
-                    </li>
-                    {% else %}
-                    <li>
-                        You are not logged in
-                    </li>
-                    <li>
-                        <a href="{% url 'login' %}">Login</a>
-                    </li>
-                    {% endif %}
-
-                </ul>
-            </nav>
-        </div>
+        <nav>
+          <!--<li class="current"><a href="/home">Home</a></li>-->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#mainMenu"
+            aria-controls="mainMenu"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mainMenu">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="userMenu"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{ user.username }}
+                </a>
+                <div
+                  class="dropdown-menu dropdown-menu-right"
+                  aria-labelledby="userMenu"
+                >
+                  <a class="dropdown-item" href="#">My account</a>
+                  <a class="dropdown-item" href="#">Change password</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
     </header>
     <section id="main">
-        <div class="container">
-            <article id="main-col">
-                <!--<h1>Meetup Questions</h1>
+      <div class="container">
+        <article id="main-col">
+          <!--<h1>Meetup Questions</h1>
                 <ul id="questions">
 
                     {% for meetup in meetups %}
@@ -83,33 +98,37 @@
                     </li>
 
                 </ul>-->
-                <h1>Upcomming Meetups</h1>
-        {% if meetups %}
-        <ul id="questions">
-          {% for meetup in meetups %}
-          <li>
-            <h3>
-              <a href="{% url 'detail' meetup.id %}">{{ meetup.title }}</a>
-            </h3>
-            <small><i>Created on:</i>
-              {{ meetup.created_on.date }}
-            </small>
-            <p><strong>Venue:</strong> {{ meetup.venue }}</p>
-            <p><strong>When:</strong> {{ meetup.when }}</p>
-            <p><strong>Description:</strong> {{ meetup.description|slice:":400" }}...</p>
-            <form action="edit_meetup.html">
-              <button type="submit" class="button">Edit</button>
-              <button type="submit" class="button" disabled>Delete</button>
-            </form>
-          </li>
-          {% endfor %}
-        </ul>
-        {% else %}
-        <p>No Meetups are available.</p>
-        {% endif %}
-            </article>
-            <aside id="sidebar">
-                <!--<h3>Post a question</h3>
+          <h1>Upcomming Meetups</h1>
+          {% if meetups %}
+          <ul id="questions">
+            {% for meetup in meetups %}
+            <li>
+              <h3>
+                <a href="{% url 'detail' meetup.id %}">{{ meetup.title }}</a>
+              </h3>
+              <small
+                ><i>Created on:</i>
+                {{ meetup.created_on.date }}
+              </small>
+              <p><strong>Venue:</strong> {{ meetup.venue }}</p>
+              <p><strong>When:</strong> {{ meetup.when }}</p>
+              <p>
+                <strong>Description:</strong> {{ meetup.description|slice:":400"
+                }}...
+              </p>
+              <form action="edit_meetup.html">
+                <button type="submit" class="button">Edit</button>
+                <button type="submit" class="button" disabled>Delete</button>
+              </form>
+            </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p>No Meetups are available.</p>
+          {% endif %}
+        </article>
+        <aside id="sidebar">
+          <!--<h3>Post a question</h3>
                 <form action="">
                     <label for="meetup">Select Your Meetup</label> <br>
                     <select>
@@ -122,13 +141,14 @@
                     {{form.as_p}}
                     <button input type="submit" class="post-btn">Post</button>
                 </form>-->
-            </aside>
-
-        </div>
+        </aside>
+      </div>
     </section>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <footer>
-        <p>&copy;2019 Asker. All rights reserved</p>
+      <p>&copy;2019 Asker. All rights reserved</p>
     </footer>
-</body>
-
+  </body>
 </html>
