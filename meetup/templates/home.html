@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Asker|User</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/home.css" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
   </head>
 
   <body>
@@ -113,8 +113,7 @@
               <p><strong>Venue:</strong> {{ meetup.venue }}</p>
               <p><strong>When:</strong> {{ meetup.when }}</p>
               <p>
-                <strong>Description:</strong> {{ meetup.description|slice:":400"
-                }}...
+                <strong>Description:</strong> {{meetup.description|slice:":400"}}...
               </p>
               <form action="edit_meetup.html">
                 <button type="submit" class="button">Edit</button>

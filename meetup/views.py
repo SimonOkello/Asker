@@ -6,6 +6,7 @@ from meetup.models import Meetup, Comment
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -14,7 +15,7 @@ from django.urls import reverse
 def index(request):
     return render(request, 'index.html', {})
 
-
+@login_required
 def home(request):
     meetups = Meetup.objects.all().order_by('title')
     return render(request, 'home.html', {'meetups': meetups})
@@ -31,7 +32,7 @@ def register(request):
         form = RegisterForm()
     return render(request, 'signup.html', {"form": form})
 
-
+@login_required
 def meetups(request):
     form = PostMeetup()
     if request.method == "POST":
@@ -52,11 +53,10 @@ def meetups(request):
 
     return render(request, 'admin.html', {"meetups": meetups, "form": form})
 
-
+@login_required
 def detail(request, meetup_id):
     meetup = get_object_or_404(Meetup, pk=meetup_id)
     comments = Comment.objects.filter(parent=None)
-    user = User.objects.first()
     form = CommentForm()
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -68,7 +68,7 @@ def detail(request, meetup_id):
                 comment_qs = Comment.objects.get(id=parent_id)
 
             topic.meetup = meetup
-            topic.posted_by = user
+            topic.posted_by = request.user
             topic.parent = comment_qs
             topic.save()
             return HttpResponseRedirect(reverse('detail', args=(meetup.id,)))
@@ -78,7 +78,7 @@ def detail(request, meetup_id):
     context = {"meetup": meetup, "form": form, 'comments': comments}
     return render(request, 'detail.html', context)
 
-
+@login_required
 def profile(request):
     meetups = Meetup.objects.all().order_by('-created_on')
     return render(request, 'profile.html', {'meetups': meetups})
