@@ -62,7 +62,6 @@ def meetups(request):
 @login_required
 def detail(request, meetup_id):
     meetup = get_object_or_404(Meetup, pk=meetup_id)
-    comments = Comment.objects.filter(parent=None)
     form = CommentForm()
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -81,7 +80,7 @@ def detail(request, meetup_id):
     else:
         form = CommentForm()
 
-    context = {"meetup": meetup, "form": form, 'comments': comments}
+    context = {"meetup": meetup, "form": form}
     return render(request, 'detail.html', context)
 
 
