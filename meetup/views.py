@@ -15,13 +15,17 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, 'index.html', {})
 
+
 @login_required
 def home(request):
-    meetups = Meetup.objects.all().order_by('title')
+    meetups = Meetup.objects.all().order_by('-created_on')
     return render(request, 'home.html', {'meetups': meetups})
 
 
 def register(request):
+    """"
+    This route is for creating the Asker account by the new user.
+    """
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -31,6 +35,7 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'signup.html', {"form": form})
+
 
 @login_required
 def meetups(request):
@@ -52,6 +57,7 @@ def meetups(request):
         meetups = Meetup.objects.all().order_by('-created_on')
 
     return render(request, 'admin.html', {"meetups": meetups, "form": form})
+
 
 @login_required
 def detail(request, meetup_id):
@@ -77,6 +83,7 @@ def detail(request, meetup_id):
 
     context = {"meetup": meetup, "form": form, 'comments': comments}
     return render(request, 'detail.html', context)
+
 
 @login_required
 def profile(request):
