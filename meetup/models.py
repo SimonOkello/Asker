@@ -36,6 +36,7 @@ class Comment(models.Model):
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='comments')
     question = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
+    active = models.BooleanField(default=True)
     up_vote = models.IntegerField(default=0)
     down_vote = models.IntegerField(default=0)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')

@@ -66,13 +66,13 @@
                         </small>
                         <hr>
                         <hr>
-                        {% for comment in meetup.comments.all %}
+                        {% for comment in comments %}
                         <div class="comment">
                             <p>
                                 On {{comment.created_date }}&nbsp;
-                                <b>{{ comment.author }}</b> asked:
+                                <b>{{ comment.posted_by }}</b> asked:
                             </p>
-                            <p>{{ comment.text|linebreaks }}</p>
+                            <p>{{ comment.question|linebreaks }}</p>
                         </div>
                         <hr>
                         <!--<a href=""><span class="upvote">({{comment.up_vote}}) Upvote</span></a> || <a href=""><span

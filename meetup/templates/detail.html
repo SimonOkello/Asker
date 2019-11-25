@@ -62,7 +62,7 @@
           <h1>Meetup Questions</h1>
           <ul id="questions">
             <li>
-              <!--<h3>Comments: {{ meetup.comments.count }}</h3>-->
+              <h3>Questions: {{ comment.parent.count }}</h3>
               <h2>
                 <a href="">{{ meetup.title }}</a>
               </h2>
@@ -73,8 +73,8 @@
               <p>{{ meetup.description }}</p>
               <hr />
               <hr />
-              <h3>Questions:</h3>
-              {% for comment in meetup.comments.all %}
+              <h3>Questions & Replies:</h3>
+              {% for comment in comments %}
               <!--<div class="comment">-->
               <blockquote>
                 <p>{{ comment.question|linebreaks }}</p>
@@ -95,7 +95,9 @@
                       {{reply.created_date|timesince }} ago&nbsp;
                     </p>
                   </blockquote>
+                  <hr>
                   {% endfor %}
+                  
                   <form action="" method="post">
                     {% csrf_token %} {{form.as_p}}
                     <input
@@ -129,6 +131,11 @@
           <h3>Post Question</h3>
           <form action="." method="POST">
             {% csrf_token %} {{ form.as_p }}
+            <input
+            type="hidden"
+            name="parent_id"
+            value="{{comment.id}}"
+          />
             <button type="submit" class="post-btn">Post</button>
           </form>
         </aside>

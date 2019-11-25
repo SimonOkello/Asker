@@ -48,6 +48,7 @@ def meetups(request):
                 venue=form.cleaned_data["venue"],
                 when=form.cleaned_data["when"],
                 description=form.cleaned_data["description"],
+                created_by=request.user
 
             )
             post_meetup.save()
@@ -61,26 +62,41 @@ def meetups(request):
 
 @login_required
 def detail(request, meetup_id):
+    # get meeup object
     meetup = get_object_or_404(Meetup, pk=meetup_id)
+    # list all active parent questions
+    comments = meetup.comments.filter(active=True, parent__isnull=True)
     form = CommentForm()
     if request.method == "POST":
-        form = CommentForm(request.POST)
+        form = CommentForm(data=request.POST)
+        # question has been added
         if form.is_valid():
-            topic = form.save(commit=False)
-            parent_id = request.POST.get('parent_id')
-            comment_qs = None
+            parent_obj = None
+            # get parent question_id from the hidden input in the form
+            try:
+                parent_id = int(request.POST.get('parent_id'))
+            except:
+                parent_id = None
+                # if parent_id has been submitted get parent_obj id
             if parent_id:
-                comment_qs = Comment.objects.get(id=parent_id)
+                parent_obj = Comment.objects.get(id=parent_id)
 
-            topic.meetup = meetup
-            topic.posted_by = request.user
-            topic.parent = comment_qs
-            topic.save()
+                if parent_obj:
+                    #create reply object
+                    new_reply = form.save(commit=False)
+                    #assign parent_obj to reply object
+                    new_reply.parent = parent_obj
+
+            new_comment = form.save(commit=False)
+            new_comment.meetup = meetup
+            new_comment.posted_by = request.user
+
+            new_comment.save()
             return HttpResponseRedirect(reverse('detail', args=(meetup.id,)))
     else:
         form = CommentForm()
 
-    context = {"meetup": meetup, "form": form}
+    context = {"meetup": meetup, "form": form, "comments": comments}
     return render(request, 'detail.html', context)
 
 
