@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 
 # Create your views here.
@@ -82,9 +83,9 @@ def detail(request, meetup_id):
                 parent_obj = Comment.objects.get(id=parent_id)
 
                 if parent_obj:
-                    #create reply object
+                    # create reply object
                     new_reply = form.save(commit=False)
-                    #assign parent_obj to reply object
+                    # assign parent_obj to reply object
                     new_reply.parent = parent_obj
 
             new_comment = form.save(commit=False)
@@ -98,6 +99,33 @@ def detail(request, meetup_id):
 
     context = {"meetup": meetup, "form": form, "comments": comments}
     return render(request, 'detail.html', context)
+
+
+def meetup_edit(request, meetup_id):
+    meetup = get_object_or_404(Meetup, pk=meetup_id)
+    if request.method == "POST":
+        form = PostMeetup(request.POST, instance=meetup)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.created_by = request.user
+            post.created_on = timezone.now()
+            post.save()
+            return HttpResponseRedirect(reverse('detail', args=(meetup.id,)))
+    else:
+        form = PostMeetup(instance=meetup)
+    return render(request, 'edit_meetup.html', {'form': form})
+
+
+def meetup_delete(request, meetup_id):
+    """
+    This route is for deleting a meeting from the database
+    """
+    meetup = get_object_or_404(Meetup, pk=meetup_id)
+    if request.method == "POST":
+        meetup.delete()
+        return HttpResponseRedirect(reverse('meetups', args=(meetup.id)))
+
+    return render(request, 'delete.html', {'meetup': meetup})
 
 
 @login_required

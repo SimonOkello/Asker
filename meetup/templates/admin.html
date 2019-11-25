@@ -62,11 +62,15 @@
             <p><strong>Venue:</strong> {{ meetup.venue }}</p>
             <p><strong>When:</strong> {{ meetup.when }}</p>
             <p><strong>Description:</strong> {{ meetup.description|slice:":400" }}...</p>
-            <a href="{% url 'detail' meetup.id %}">Comments: {{ meetup.comments.count }}</a>
-            <form action="edit_meetup.html">
+            <a href="{% url 'detail' meetup.id %}">Comments: {{ meetup.comments.count }}</a><br><br>
+            {% if user.is_authenticated %}
+            <a href="{% url 'meetup_edit' meetup.id %}" class="button">Edit</a>
+            <a href="{% url 'meetup_delete' meetup.id %}" class="button">Delete</a>
+            {% endif %}
+            <!--<form action="edit_meetup.html">
               <button type="submit" class="button">Edit</button>
               <button type="submit" class="button" disabled>Delete</button>
-            </form>
+            </form>-->
           </li>
           {% endfor %}
         </ul>

@@ -25,6 +25,7 @@ class Meetup(models.Model):
     when = models.DateField()
     description = models.TextField()
     
+    
 
     def __str__(self):
         return self.title

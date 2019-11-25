@@ -36,16 +36,13 @@
         <div class="container">
             <article id="main-col">
                 <h1>Edit Meetup</h1>
-                <form action="" method="">
-                        <input type="text" name="title" placeholder="Flask Meetup"><br>
-                        <input type="text" name="venue" placeholder="PAC first-floor"><br>
-                        <input type="text" name="when" placeholder="Wed, 9th Jan 2019"><br>
-    
-                        <textarea rows="4" cols="40" placeholder="How to adhere to Andela EPIC rules"></textarea>
-                        <button type="button" class="post-btn">Save</button>
+                <form action="" method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="post-btn">Save</button>
                     </form>
             </article>
-            <aside id="sidebar">
+            <!--<aside id="sidebar">
                 <h3>Create Meetup</h3>
                 <form action="" method="">
                     <input type="text" name="title" placeholder="Meetup name"><br>
@@ -55,7 +52,7 @@
                     <textarea rows="4" cols="40" placeholder="Type Meetup Description here..."></textarea>
                     <button type="button" class="post-btn">Create</button>
                 </form>
-            </aside>
+            </aside>-->
         </div>
     </section>
 

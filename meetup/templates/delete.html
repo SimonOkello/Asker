@@ -1,0 +1,54 @@
+{% load static %}<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Asker|User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <div id="branding">
+          <h1><span class="highlight"> Asker</span></h1>
+        </div>
+        <!--<div id="search">
+                <form action="">
+                    <input type="text" placeholder="Search question...">
+                    <button type="submit" class="button">Search</button>
+                </form>
+
+            </div>-->
+        <nav>
+          <ul>
+            <li class="current"><a href="admin.html">Home</a></li>
+            <!--<li><a href="profile.html">Profile</a></li>-->
+            <li>Welcome ADMIN</li>
+            <li><a href="index.html">SignOut</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <section id="main">
+      <div class="container">
+        <article id="main-col">
+          <h1>Delete Meetup</h1>
+          <form action="" method="POST">
+            {% csrf_token %}
+            <p>Are you sure you want to delete "{{meetup.title}}" meeting?</p>
+            <p>
+              <input type="submit" value="Yes" class="button" />
+              <a href="{% url 'meetups' %}" class="button">Cancel</a>
+            </p>
+          </form>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy;2019 Asker. All rights reserved</p>
+    </footer>
+  </body>
+</html>
