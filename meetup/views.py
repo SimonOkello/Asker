@@ -130,5 +130,8 @@ def meetup_delete(request, meetup_id):
 
 @login_required
 def profile(request):
-    meetups = Meetup.objects.all().order_by('-created_on')
+    """
+    This route allows the logged in user to view his/her profile
+    """
+    meetups = Meetup.objects.all()
     return render(request, 'profile.html', {'meetups': meetups})
