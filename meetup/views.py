@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegisterForm, PostMeetup, CommentForm
-from django.contrib import auth
-from django.contrib.auth import get_user_model, login
+from django.contrib import auth, messages
+from django.contrib.auth import get_user_model, login, update_session_auth_hash
 from meetup.models import Meetup, Comment
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 # Create your views here.
@@ -101,6 +102,7 @@ def detail(request, meetup_id):
     return render(request, 'detail.html', context)
 
 
+@login_required
 def meetup_edit(request, meetup_id):
     meetup = get_object_or_404(Meetup, pk=meetup_id)
     if request.method == "POST":
@@ -116,6 +118,7 @@ def meetup_edit(request, meetup_id):
     return render(request, 'edit_meetup.html', {'form': form})
 
 
+@login_required
 def meetup_delete(request, meetup_id):
     """
     This route is for deleting a meeting from the database
@@ -135,3 +138,21 @@ def profile(request):
     """
     meetups = Meetup.objects.all()
     return render(request, 'profile.html', {'meetups': meetups})
+
+
+def reset_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(
+                request, 'Your password was successfully updated!')
+            return redirect('login')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'password_reset.html', {
+        'form': form
+    })

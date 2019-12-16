@@ -32,9 +32,9 @@
          <input type="hidden" name="next" value="{{next}}"/>
           <button type="submit" class="button">Login</button>
         </form>
-        <p><a href="/reset">Forgot password?</a></p>
+        <p><a href="{% url 'reset_password' %}">Forgot password?</a></p>
         <p>
-          Not A Member Yet? Join Questioner Today
+          Not A Member Yet? Join Asker Today
           <a href="{% url 'register' %}">SignUp</a>
         </p>
       </div>
