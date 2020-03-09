@@ -27,7 +27,7 @@ SECRET_KEY = 'xsc7!^2+l-q27j-!qq@74#@5f$zsm&x0&(rgw84559+dmo2*e2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['asker-v1.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
