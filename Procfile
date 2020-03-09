@@ -1,1 +1,1 @@
-web: gunicorn questioner.wsgi --log-file-
+web: gunicorn questioner.wsgi --log-file -
