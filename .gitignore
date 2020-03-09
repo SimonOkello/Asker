@@ -24,3 +24,9 @@ static/rev-manifest.json
 temp/
 .cpython-36.pyc
 .pytest_cache/
+
+# Text backup files
+*.bak
+
+# Database
+*.sqlite3
